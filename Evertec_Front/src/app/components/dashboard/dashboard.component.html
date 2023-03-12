@@ -1,0 +1,127 @@
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container-fluid justify-content-center">
+            <span>
+                <a href="https://www.evertecinc.com/">
+                    <img class="imglogo" src="https://www.evertecinc.com/wp-content/uploads/2020/07/logo-evertec.png"
+                        width="170px" alt="" />
+                </a>
+            </span>
+        </div>
+    </nav>
+    <!-- Navbar -->
+</header>
+
+<body>
+    <div class="container">
+        <button class="btn btn-primary" (click)="OpenModal()"><i class="fa-solid fa-plus"></i>Agregar</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Cumpleaños</th>
+                    <th scope="col">Estado Civil</th>
+                    <th scope="col">Tiene Hermanos</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let info of rs.data">
+                    <th scope="row">{{ info.id }}</th>
+                    <td>{{ info.firstName }}</td>
+                    <td>{{ info.lastName }}</td>
+                    <td>{{ info.birth }}</td>
+                    <td>{{ info.maritalStatus == 0 ? 'Soltero' : 'Casado' }}</td>
+                    <td>{{ info.hasSiblings ? 'Si' : 'No' }}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" (click)="ViewImg(info.photo)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button type="button" class="action-btn btn btn-primary" (click)="edit(info)">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger" (click)="delete(info.id)">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{ personInfo.id ? 'Modificar' : 'Agregar'}}
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModal()"></button>
+            </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" id="contactForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-floating col-md-6">
+                            <input type="text" class="form-control" id="firstName" placeholder="Nombre"
+                                formControlName="firstName" required>
+                            <label for="firstName">Nombre</label>
+                        </div>
+                        <div class="form-floating col-md-6">
+                            <input type="text" class="form-control" id="lastName" placeholder="Apellido"
+                                formControlName="lastName" required>
+                            <label for="lastName">Apellido</label>
+                        </div>
+                        <div class="form-floating col-md-6">
+                            <input type="date" class="form-control" id="birth" placeholder="Nombre"
+                                formControlName="birth" required>
+                            <label for="birth">Fecha de nacimiento</label>
+                        </div>
+                        <div class="form-floating col-md-6">
+                            <select class="form-select" id="maritalStatus" formControlName="maritalStatus" required>
+                                <option></option>
+                                <option value="0">Soltero</option>
+                                <option value="1">Casado</option>
+                            </select>
+                            <label for="maritalStatus">Estado Civil</label>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" formControlName="hasSiblings">
+                                <label class="form-check-label" for="flexSwitchCheckChecked">¿Tiene hermanos?</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="file" class="form-control" accept=".jpg,.png" (change)="getFile($event)"
+                                required>
+                        </div>
+                        <div class="col-md-12">
+                            <img width="150px" [src]="archivo" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary position-relative">
+                        {{ personInfo.id ? 'Modificar' : 'Agregar'}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="PhotoView" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <img width="500px" [src]="archivo" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
